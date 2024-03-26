@@ -20,16 +20,23 @@ library(readr)
 
 ```{r ISCN}
 # IDENTIFY AND PULL DATA LEVEL 0 (test case ISCN3)
-# download ISCN version.3 from EDI website; https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e
+# ISCN url: https://portal.edirepository.org/nis/mapbrowse?scope=edi&identifier=1160&revision=1
+# download ISCN version.3 from EDI website; 
+#Profile data: https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e
 # the above url is the profile table data for ISCN
 
-## using download.file function to pull data from the web
-ISCN_profile <- download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e",
-                          destfile = "ISCN_profile.csv")
-
 # create a data directory for the downloaded profile table from the url
-dataDir <- 'ISCN_profile.csv'
-ISCN_profile <- readr::read_delim(file.path(dataDir)) # ?read_delim for more info on the function
+datafile <- 'data/ISCN_profile.csv'
+
+if( ! file.exists(datafile)){
+  ## using download.file function to pull data from the web
+  download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e",
+                destfile = datafile)
+}
+
+ISCN_profile.df <- readr::read_delim(file = datafile,
+                                     #col_types = 'c') #this didn't work, only converted the first column... maybe?
+                                     col_types = cols(.default = col_character())) # ?read_delim for more info on the function
 ```
 
 ```{r common useful functions for data manipulation}
