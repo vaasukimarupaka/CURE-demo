@@ -16,22 +16,16 @@ library(devtools)
 library(tidyverse)
 library(dplyr)
 library(readr)
-library(ggplot2)
-
 ```
 
 ```{r ISCN}
 # IDENTIFY AND PULL DATA LEVEL 0 (test case ISCN3)
-# download ISCN version.3 from EDI website; https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e
+# ISCN url: https://portal.edirepository.org/nis/mapbrowse?scope=edi&identifier=1160&revision=1
+# download ISCN version.3 from EDI website; 
+#Profile data: https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e
 # the above url is the profile table data for ISCN
 
-## using download.file function to pull data from the web
-ISCN_profile <- download.file("https://portal.edirepository.org/nis/dataviewer?packageid=edi.1160.1&entityid=40527580cc045d33d9a5aaf728bf204e",
-                          destfile = "data/ISCN_profile.csv") 
-                          #timeout = max(2000, getOption("timeout")))
-
 # create a data directory for the downloaded profile table from the url
-
 datafile <- 'data/ISCN_profile.csv'
 
 if( ! file.exists(datafile)){
@@ -43,27 +37,18 @@ if( ! file.exists(datafile)){
 ISCN_profile.df <- readr::read_delim(file = datafile)
                                      #col_types = 'c') #this didn't work, only converted the first column... maybe?
                                      #col_types = cols(.default = col_character())) # ?read_delim for more info on the function
-
 ```
 
 ```{r common useful functions for data manipulation}
 # let's see the structure of the column varables in this dataframe. 
-
 str(ISCN_profile.df)
-names(ISCN_profile.df)
 
 # What are the identifier columns in this dataframe? check with students in the class!
 # pull head and tail of the dataframe by calling the functions: head() and tail()
 # introduce to the functions such as: filter, select, mutate, pivot
 ```
 
-
-
 ```{r}
-ggplot(data = ISCN_profile.df) +
-  geom_histogram(aes(x = `soc (g cm-2)`))
-
 ggplot(ISCN_profile.df) +
   geom_histogram(aes(x=`map (mm)`))
 ```
-
