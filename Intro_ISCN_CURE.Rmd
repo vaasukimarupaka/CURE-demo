@@ -16,6 +16,7 @@ library(devtools)
 library(tidyverse)
 library(dplyr)
 library(readr)
+library(ggplot2)
 
 ```
 
@@ -44,4 +45,9 @@ names(ISCN_profile)
 # introduce to the functions such as: filter, select, mutate, pivot
 ```
 
+
+```{r}
+ggplot(data = ISCN_profile) +
+  geom_histogram(aes(x = `soc (g cm-2)`))
+```
 
